@@ -1,26 +1,41 @@
 #!/usr/bin/python
-
-from pyA20.gpio import gpio
-from pyA20.gpio import port
-
-#========== Temp & Humidity ===========
-import dht11
-import time
-import datetime
-
-# initialize GPIO
-PIN2 = port.PA10
-gpio.init()
-
-instance = dht11.DHT11(pin=PIN2)
-
-#========== LCD ===========
+#--------------------------------------
+#    ___  ___  _ ____
+#   / _ \/ _ \(_) __/__  __ __
+#  / , _/ ___/ /\ \/ _ \/ // /
+# /_/|_/_/  /_/___/ .__/\_, /
+#                /_/   /___/
+#
+#  lcd_i2c.py
+#  LCD test script using I2C backpack.
+#  Supports 16x2 and 20x4 screens.
+#
+# Author : Matt Hawkins
+# Date   : 20/09/2015
+#
+# http://www.raspberrypi-spy.co.uk/
+#
+# Copyright 2015 Matt Hawkins
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#--------------------------------------
 import smbus
 import time
 
-
 # Define some device parameters
-I2C_ADDR  = 0x3f # I2C device address
+I2C_ADDR  = 0x3f# I2C device address
 LCD_WIDTH = 16   # Maximum characters per line
 
 # Define some device constants
@@ -97,14 +112,18 @@ def main():
   lcd_init()
 
   while True:
-  
-	result = instance.read()
-	if result.is_valid():		
-		lcd_string("Humidity: %d %%" % result.humidity ,LCD_LINE_1)
-		lcd_string("Temp: %d C" % result.temperature ,LCD_LINE_2)
 
-	time.sleep(0.3)
+    # Send some test
+    lcd_string("RPiSpy         <",LCD_LINE_1)
+    lcd_string("I2C LCD        <",LCD_LINE_2)
+
+    time.sleep(3)
   
+    # Send some more text
+    lcd_string(">         RPiSpy",LCD_LINE_1)
+    lcd_string(">        I2C LCD",LCD_LINE_2)
+
+    time.sleep(3)
 
 if __name__ == '__main__':
 
